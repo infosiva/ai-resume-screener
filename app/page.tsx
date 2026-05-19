@@ -1,4 +1,5 @@
 'use client'
+import { motion } from 'framer-motion'
 
 import { useState, useRef } from 'react'
 
@@ -89,6 +90,21 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
+      {/* Animated blob bg */}
+      <div style={{ position: 'fixed', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }} aria-hidden>
+        <motion.div
+          style={{ position: 'absolute', top: '-15%', left: '-8%', width: 600, height: 600, borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)', filter: 'blur(80px)' }}
+          animate={{ x: [0, 40, 0], y: [0, -20, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: 14, ease: 'easeInOut', repeat: Infinity }}
+        />
+        <motion.div
+          style={{ position: 'absolute', bottom: '-10%', right: '-6%', width: 500, height: 500, borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%)', filter: 'blur(90px)' }}
+          animate={{ x: [0, -25, 0], y: [0, 20, 0], scale: [1, 1.06, 1] }}
+          transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity, delay: 2 }}
+        />
+      </div>
       <header className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-blue-400">AI Resume Screener</h1>
