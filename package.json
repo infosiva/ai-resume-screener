@@ -13,7 +13,7 @@
     "@tailwindcss/postcss": "^4.2.4",
     "framer-motion": "^12.39.0",
     "groq-sdk": "^0.9.0",
-    "next": "15.3.2",
+    "next": "^16.2.7",
     "pdf-parse": "^1.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
