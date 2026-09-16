@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import FloatingChatWrapper from '@/components/FloatingChatWrapper'
+import FeedbackWidget from '@/components/FeedbackWidget'
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -25,6 +26,12 @@ export default function RootLayout({
       <head>
         <meta name="google-adsense-account" content="ca-pub-4237294630161176" />
         <Script
+                  async
+                  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237294630161176"
+                  crossOrigin="anonymous"
+                  strategy="afterInteractive"
+                />
+        <Script
           id="structured-data"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -45,7 +52,8 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-        <Script defer data-site="ai-resume-screener.vercel.app" src="http://31.97.56.148:3098/t.js" strategy="afterInteractive" />
+        <FloatingChatWrapper />
+        <FeedbackWidget />
       </body>
     </html>
   );
