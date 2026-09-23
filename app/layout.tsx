@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import FloatingChatWrapper from '@/components/FloatingChatWrapper'
+import { getSiteFlags } from '@/lib/flags'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import Script from "next/script";
 
@@ -16,11 +17,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const flags = await getSiteFlags('airesumescreener')
   return (
     <html lang="en">
       <head>
@@ -52,7 +54,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-        <FloatingChatWrapper />
+        {flags.chatbot && <FloatingChatWrapper />}
         <FeedbackWidget />
       </body>
     </html>
