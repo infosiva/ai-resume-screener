@@ -5,6 +5,7 @@ import { getSiteFlags } from '@/lib/flags'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import Script from "next/script";
 
+import { MotionProvider } from "@infosiva/shared-ui/modern";
 export const metadata: Metadata = {
   metadataBase: new URL("https://ai-resume-screener.vercel.app"),
   title: "AI Resume Screener — Automated Candidate Screening & Ranking",
@@ -53,7 +54,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         {flags.chatbot && <FloatingChatWrapper />}
         <FeedbackWidget />
       </body>

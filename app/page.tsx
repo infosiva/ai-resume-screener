@@ -1,4 +1,5 @@
 'use client'
+import { MagneticButton } from "@infosiva/shared-ui/modern";
 import { motion } from 'framer-motion'
 
 import { useState, useRef } from 'react'
@@ -163,13 +164,13 @@ export default function Home() {
             </button>
           </div>
         ) : (
-          <button
+          <MagneticButton
             onClick={screen}
             disabled={loading || !jobDesc.trim() || !files.length}
             className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed py-3 rounded-xl font-medium transition-colors"
           >
             {loading ? `Screening ${files.length} resume(s)...` : `Screen ${files.length || 0} Resume(s)`}
-          </button>
+          </MagneticButton>
         )}
 
         {error && (
