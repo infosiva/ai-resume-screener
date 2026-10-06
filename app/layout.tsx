@@ -5,6 +5,9 @@ import { getSiteFlags } from '@/lib/flags'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import Script from "next/script";
 
+import { AnimatedBg } from "@/components/AnimatedBg";
+import Telemetry from "@/components/Telemetry";
+import { loadSiteTheme, buildThemeStyleTag, buildGa4Snippet, isValidGa4Id } from "@/lib/theme-loader";
 import { MotionProvider } from "@infosiva/shared-ui/modern";
 export const metadata: Metadata = {
   metadataBase: new URL("https://ai-resume-screener.vercel.app"),
@@ -16,48 +19,37 @@ export const metadata: Metadata = {
     description: "AI-powered resume screening and ranking for recruiters and hiring teams.",
     type: "website",
   },
+  icons: { icon: "/icon.svg", apple: "/apple-touch-icon.svg" },
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const flags = await getSiteFlags('airesumescreener')
+export const revalidate = 600
+
+const SITE_ID = 'ai-resume-screener'
+const DEFAULT_ARCHETYPE = 'career-portfolio'
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const [flags, theme] = await Promise.all([getSiteFlags('airesumescreener'), loadSiteTheme(SITE_ID)])
+  const ga4 = theme?.analytics?.ga4Id
   return (
-    <html lang="en">
+    <html lang="en" data-layout={theme?.layout?.archetype ?? DEFAULT_ARCHETYPE}>
       <head>
+        <style id="hub-theme" dangerouslySetInnerHTML={{ __html: buildThemeStyleTag(theme) }} />
         <meta name="google-adsense-account" content="ca-pub-4237294630161176" />
-        <Script
-                  async
-                  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237294630161176"
-                  crossOrigin="anonymous"
-                  strategy="afterInteractive"
-                />
-        <Script
-          id="structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "AI Resume Screener",
-              "description": "Automated resume screening and candidate ranking using AI",
-              "applicationCategory": "BusinessApplication",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              }
-            })
-          }}
-        />
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237294630161176" crossOrigin="anonymous" strategy="afterInteractive" />
+        {isValidGa4Id(ga4) && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${ga4}`} strategy="afterInteractive" />
+            <Script id="ga4-init" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: buildGa4Snippet(theme) }} />
+          </>
+        )}
       </head>
       <body>
+        <AnimatedBg theme={theme} fallback="gradient-shift" />
         <MotionProvider>{children}</MotionProvider>
         {flags.chatbot && <FloatingChatWrapper />}
         <FeedbackWidget />
+        <Telemetry />
       </body>
     </html>
-  );
+  )
 }
