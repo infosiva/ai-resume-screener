@@ -33,9 +33,9 @@ export default function FloatingChatWrapper() {
         onClick={() => setOpen(o => !o)}
         whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}
         style={{ position: 'fixed', bottom: 24, right: 24, width: 52, height: 52, borderRadius: '50%',
-          background: 'linear-gradient(135deg,#3b82f6,#2563eb)', border: 'none', cursor: 'pointer',
+          background: 'linear-gradient(135deg,var(--accent),var(--accent))', border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 4px 20px rgba(59,130,246,0.3)', zIndex: 1000, fontSize: 20 }}
+          boxShadow: '0 4px 20px color-mix(in oklab, var(--accent) 30%, transparent)', zIndex: 1000, fontSize: 20 }}
       >
         {open ? '✕' : '💬'}
       </motion.button>
@@ -47,30 +47,30 @@ export default function FloatingChatWrapper() {
             exit={{ opacity: 0, y: 10, scale: 0.97 }}
             transition={{ duration: 0.2 }}
             style={{ position: 'fixed', bottom: 88, right: 24, width: 320, height: 420,
-              background: 'rgba(8,8,20,0.97)', border: '1px solid rgba(59,130,246,0.3)',
+              background: 'var(--surface-strong)', border: '1px solid color-mix(in oklab, var(--accent) 30%, transparent)',
               borderRadius: 16, display: 'flex', flexDirection: 'column', zIndex: 1000,
               overflow: 'hidden', backdropFilter: 'blur(20px)' }}
           >
-            <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(59,130,246,0.3)', fontSize: 13, fontWeight: 700, color: '#f8fafc' }}>
+            <div style={{ padding: '12px 16px', borderBottom: '1px solid color-mix(in oklab, var(--accent) 30%, transparent)', fontSize: 13, fontWeight: 700, color: 'var(--ink)' }}>
               ResumeScreen AI
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
               {msgs.map((m, i) => (
                 <div key={i} style={{
                   alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
-                  background: m.role === 'user' ? 'rgba(59,130,246,0.3)' : 'rgba(255,255,255,0.06)',
-                  padding: '8px 12px', borderRadius: 10, fontSize: 12, color: 'rgba(248,250,252,0.9)', maxWidth: '85%',
+                  background: m.role === 'user' ? 'color-mix(in oklab, var(--accent) 30%, transparent)' : 'color-mix(in oklab, var(--ink) 6%, transparent)',
+                  padding: '8px 12px', borderRadius: 10, fontSize: 12, color: 'var(--ink)', maxWidth: '85%',
                 }}>{m.text}</div>
               ))}
             </div>
-            <div style={{ padding: '10px 12px', borderTop: '1px solid rgba(59,130,246,0.3)', display: 'flex', gap: 8 }}>
+            <div style={{ padding: '10px 12px', borderTop: '1px solid color-mix(in oklab, var(--accent) 30%, transparent)', display: 'flex', gap: 8 }}>
               <input value={input} onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && send()}
                 placeholder='Ask about screening or ATS…'
-                style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(59,130,246,0.3)',
-                  borderRadius: 8, padding: '6px 10px', fontSize: 12, color: '#f8fafc', outline: 'none' }} />
+                style={{ flex: 1, background: 'color-mix(in oklab, var(--ink) 6%, transparent)', border: '1px solid color-mix(in oklab, var(--accent) 30%, transparent)',
+                  borderRadius: 8, padding: '6px 10px', fontSize: 12, color: 'var(--ink)', outline: 'none' }} />
               <button onClick={send}
-                style={{ background: 'linear-gradient(135deg,#3b82f6,#2563eb)', border: 'none', borderRadius: 8, padding: '6px 12px', fontSize: 12, color: '#fff', cursor: 'pointer' }}>→</button>
+                style={{ background: 'linear-gradient(135deg,var(--accent),var(--accent))', border: 'none', borderRadius: 8, padding: '6px 12px', fontSize: 12, color: 'var(--on-accent)', cursor: 'pointer' }}>→</button>
             </div>
           </motion.div>
         )}

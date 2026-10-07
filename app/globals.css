@@ -1,1 +1,29 @@
 @import "tailwindcss";
+@import "./archetypes.css";
+
+/* Hub-switchable tokens: --theme-base / --theme-primary come from Edge Config theme_<siteId> via buildThemeStyleTag. No other hardcoded colours. */
+:root{
+  --bg: var(--theme-base, #f2f7f3);
+  --accent: var(--theme-primary, #15803d);
+  --ink: #1c1917; --ink-2: #57534e;
+  --on-accent: #fff; --accent-ink: var(--accent);
+  --surface: color-mix(in oklab, var(--bg) 92%, var(--ink));
+  --surface-strong: color-mix(in oklab, var(--bg) 84%, var(--ink));
+  --line: color-mix(in oklab, var(--ink) 14%, transparent);
+}
+@supports (color: oklch(from red l c h)) {
+  :root{
+    --ink: oklch(from var(--bg) clamp(0.14, calc((0.62 - l) * 100), 0.97) 0.012 h);
+    --ink-2: color-mix(in oklab, var(--ink) 68%, var(--bg));
+    --on-accent: oklch(from var(--accent) clamp(0, calc((0.64 - l) * 100), 1) 0 0);
+    --accent-ink: color-mix(in oklab, var(--accent) 72%, var(--ink));
+  }
+}
+
+@theme inline { --color-background: var(--bg); --color-foreground: var(--ink); }
+html { background: var(--bg); }
+body { background: transparent; color: var(--ink); -webkit-font-smoothing: antialiased; }
+html, body { overflow-x: hidden; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rs-dropzone:hover { border-color: var(--accent); }
+.btn-press:active { transform: scale(0.97); }

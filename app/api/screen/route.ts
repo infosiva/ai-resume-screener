@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { extractTextFromPDF, truncate } from '@/lib/resumeParser'
 import { screenResume } from '@/lib/aiScreener'
+import { checkRateLimit, getIp } from '@/lib/rateLimit'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
 export async function POST(req: NextRequest) {
+  const { ok } = checkRateLimit(getIp(req), 20)
+  if (!ok) return NextResponse.json({ error: 'Rate limit reached — try again in a moment.' }, { status: 429 })
+
   try {
     const formData = await req.formData()
     const jobDescription = formData.get('jobDescription') as string

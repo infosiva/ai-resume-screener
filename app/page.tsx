@@ -1,8 +1,8 @@
 'use client'
 import { MagneticButton } from "@infosiva/shared-ui/modern";
-import { motion } from 'framer-motion'
 
 import { useState, useRef } from 'react'
+import ResumeScreenLogo from '@/components/ResumeScreenLogo'
 
 interface Candidate {
   name: string
@@ -39,9 +39,9 @@ function incrementUsage() {
 }
 
 function scoreColor(score: number) {
-  if (score >= 75) return 'text-green-400'
-  if (score >= 50) return 'text-yellow-400'
-  return 'text-red-400'
+  if (score >= 75) return 'text-(--accent-ink)'
+  if (score >= 50) return 'text-(--ink-2)'
+  return 'text-(--ink-3)'
 }
 
 function downloadCSV(results: Candidate[]) {
@@ -90,58 +90,48 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      {/* Animated blob bg */}
-      <div style={{ position: 'fixed', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }} aria-hidden>
-        <motion.div
-          style={{ position: 'absolute', top: '-15%', left: '-8%', width: 600, height: 600, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)', filter: 'blur(80px)' }}
-          animate={{ x: [0, 40, 0], y: [0, -20, 0], scale: [1, 1.08, 1] }}
-          transition={{ duration: 14, ease: 'easeInOut', repeat: Infinity }}
-        />
-        <motion.div
-          style={{ position: 'absolute', bottom: '-10%', right: '-6%', width: 500, height: 500, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%)', filter: 'blur(90px)' }}
-          animate={{ x: [0, -25, 0], y: [0, 20, 0], scale: [1, 1.06, 1] }}
-          transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity, delay: 2 }}
-        />
-      </div>
-      <header className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-blue-400">AI Resume Screener</h1>
-          <p className="text-xs text-gray-500">Rank candidates automatically with AI</p>
+    <div className="min-h-screen" style={{ color: 'var(--ink)' }}>
+      <header className="border-b px-6 py-4 flex items-center justify-between relative z-10" style={{ borderColor: 'var(--line)' }}>
+        <div className="flex items-center gap-3">
+          <ResumeScreenLogo size={30} />
+          <div>
+            <h1 className="text-xl font-bold">
+              Resume<span style={{ color: 'var(--accent)' }}>Screen</span>
+            </h1>
+            <p className="text-xs text-(--ink-2)">Rank candidates automatically with AI</p>
+          </div>
         </div>
-        <div className="text-sm text-gray-400">{getRemainingFree()} free screenings left today</div>
+        <div className="text-sm text-(--ink-2)">{getRemainingFree()} free screenings left today</div>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-10 space-y-8">
         <div className="grid md:grid-cols-2 gap-6">
           {/* Job Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Job Description</label>
+            <label className="block text-sm font-medium text-(--ink) mb-2">Job Description</label>
             <textarea
               value={jobDesc}
               onChange={e => setJobDesc(e.target.value)}
               placeholder="Paste the full job description here..."
-              className="w-full h-48 bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 resize-none text-sm"
+              className="w-full h-48 bg-(--surface) border border-(--line) rounded-xl px-4 py-3 text-(--ink) placeholder:text-(--ink-3) focus:outline-none resize-none text-sm"
             />
           </div>
 
           {/* Resume Upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-(--ink) mb-2">
               Resumes (PDF, up to 10)
             </label>
             <div
               onClick={() => fileRef.current?.click()}
-              className="h-48 border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors"
+              className="h-48 border-2 border-dashed border-(--line) rs-dropzone rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors rs-dropzone"
             >
-              <svg className="w-10 h-10 text-gray-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-10 h-10 text-(--ink-3) mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
               </svg>
-              <p className="text-gray-500 text-sm">Click to upload PDFs</p>
+              <p className="text-(--ink-2) text-sm">Click to upload PDFs</p>
               {files.length > 0 && (
-                <p className="text-blue-400 text-sm mt-2">{files.length} file(s) selected</p>
+                <p className="text-sm mt-2" style={{ color: "var(--accent)" }}>{files.length} file(s) selected</p>
               )}
             </div>
             <input
@@ -156,25 +146,23 @@ export default function Home() {
         </div>
 
         {limitHit ? (
-          <div className="rounded-xl bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/30 p-6 text-center">
+          <div className="rounded-xl p-6 text-center border border-(--line) bg-(--surface)">
             <h3 className="text-lg font-semibold mb-2">Free limit reached</h3>
-            <p className="text-gray-400 mb-4">5 free screenings used today. Upgrade for unlimited access.</p>
-            <button className="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-lg font-medium transition-colors">
-              Upgrade — $29/month for HR teams
-            </button>
+            <p className="mb-2 text-(--ink-2)">{FREE_LIMIT} free screenings used today. Come back tomorrow.</p>
+            <p className="text-sm text-(--ink-3)">Paid plans for HR teams are planned, not yet available.</p>
           </div>
         ) : (
           <MagneticButton
             onClick={screen}
             disabled={loading || !jobDesc.trim() || !files.length}
-            className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed py-3 rounded-xl font-medium transition-colors"
+            className="w-full disabled:opacity-50 disabled:cursor-not-allowed py-3 rounded-xl font-medium transition-colors rs-btn-accent" style={{ background: "var(--accent)", color: "var(--on-accent)" }}
           >
             {loading ? `Screening ${files.length} resume(s)...` : `Screen ${files.length || 0} Resume(s)`}
           </MagneticButton>
         )}
 
         {error && (
-          <div className="bg-red-900/30 border border-red-500/30 rounded-xl p-4 text-red-400 text-sm">{error}</div>
+          <div className="border border-(--line) bg-(--surface) rounded-xl p-4 text-(--ink) text-sm">{error}</div>
         )}
 
         {results.length > 0 && (
@@ -183,41 +171,41 @@ export default function Home() {
               <h2 className="text-lg font-semibold">{results.length} Candidate(s) Ranked</h2>
               <button
                 onClick={() => downloadCSV(results)}
-                className="text-sm text-blue-400 hover:text-blue-300 border border-blue-800 hover:border-blue-600 px-3 py-1.5 rounded-lg transition-colors"
+                className="text-sm px-3 py-1.5 rounded-lg transition-colors" style={{ color: "var(--accent-ink)", border: "1px solid var(--line)" }}
               >
                 Download CSV
               </button>
             </div>
             <div className="space-y-3">
               {results.map((r, i) => (
-                <div key={i} className="bg-gray-900 border border-gray-800 rounded-xl p-5 space-y-3">
+                <div key={i} className="bg-(--surface) border border-(--line) backdrop-blur-sm rounded-xl p-5 space-y-3">
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-600 font-mono">#{i + 1}</span>
+                        <span className="text-xs text-(--ink-3) font-mono">#{i + 1}</span>
                         <span className="font-semibold">{r.name}</span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">{r.fileName}</p>
+                      <p className="text-xs text-(--ink-2) mt-0.5">{r.fileName}</p>
                     </div>
                     <div className={`text-2xl font-bold ${scoreColor(r.matchScore)}`}>
                       {r.matchScore}%
                     </div>
                   </div>
-                  <p className="text-sm text-gray-400">{r.summary}</p>
+                  <p className="text-sm text-(--ink-2)">{r.summary}</p>
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div>
-                      <span className="text-gray-600">Experience: </span>
-                      <span className="text-gray-300">{r.experience}</span>
+                      <span className="text-(--ink-3)">Experience: </span>
+                      <span className="text-(--ink)">{r.experience}</span>
                     </div>
                     <div>
-                      <span className="text-gray-600">Education: </span>
-                      <span className="text-gray-300">{r.education}</span>
+                      <span className="text-(--ink-3)">Education: </span>
+                      <span className="text-(--ink)">{r.education}</span>
                     </div>
                   </div>
                   {r.matchedSkills.length > 0 && (
                     <div className="flex flex-wrap gap-1.5">
                       {r.matchedSkills.map(skill => (
-                        <span key={skill} className="text-xs bg-blue-900/40 text-blue-300 border border-blue-800 px-2 py-0.5 rounded-full">
+                        <span key={skill} className="text-xs px-2 py-0.5 rounded-full" style={{ background: "color-mix(in oklab, var(--accent) 14%, transparent)", color: "var(--accent-ink)", border: "1px solid var(--line)" }}>
                           {skill}
                         </span>
                       ))}
