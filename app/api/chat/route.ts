@@ -1,3 +1,4 @@
+import { sanitizeUserInput } from '@/lib/guard'
 import { NextRequest, NextResponse } from 'next/server'
 import { aiChat } from '@/lib/ai'
 import { log } from '@/lib/log'
@@ -11,6 +12,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const { messages } = await req.json()
+    for (const m of Array.isArray(messages) ? messages : []) if (m && typeof m.content === 'string') m.content = sanitizeUserInput(m.content).text
     if (!Array.isArray(messages) || !messages.length) return NextResponse.json({ text: 'Ask me about screening resumes.' })
     // System prompt is server-owned; a client-supplied one is ignored.
     const sysPrompt = `You are ResumeScreen AI — an expert HR assistant. Help users understand resume screening, ATS optimisation, hiring best practices, and candidate evaluation. Be concise and practical. ${SCOPE_FALLBACK}`
