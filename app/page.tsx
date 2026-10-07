@@ -2,7 +2,7 @@
 import { MagneticButton } from "@infosiva/shared-ui/modern";
 
 import { useState, useRef } from 'react'
-import ResumeScreenLogo from '@/components/ResumeScreenLogo'
+import Logo from '@/components/Logo'
 
 interface Candidate {
   name: string
@@ -93,7 +93,7 @@ export default function Home() {
     <div className="min-h-screen" style={{ color: 'var(--ink)' }}>
       <header className="border-b px-6 py-4 flex items-center justify-between relative z-10" style={{ borderColor: 'var(--line)' }}>
         <div className="flex items-center gap-3">
-          <ResumeScreenLogo size={30} />
+          <Logo size={30} />
           <div>
             <h1 className="text-xl font-bold">
               Resume<span style={{ color: 'var(--accent)' }}>Screen</span>
