@@ -104,27 +104,27 @@ export default function Home() {
         <div className="text-sm text-(--ink-2)">{getRemainingFree()} free screenings left today</div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-10 space-y-8">
-        <div className="grid md:grid-cols-2 gap-6">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6">
           {/* Job Description */}
-          <div>
+          <div className="rs-in" style={{ ["--i" as string]: 1 }}>
             <label className="block text-sm font-medium text-(--ink) mb-2">Job Description</label>
             <textarea
               value={jobDesc}
               onChange={e => setJobDesc(e.target.value)}
               placeholder="Paste the full job description here..."
-              className="w-full h-48 bg-(--surface) border border-(--line) rounded-xl px-4 py-3 text-(--ink) placeholder:text-(--ink-3) focus:outline-none resize-none text-sm"
+              className="w-full h-36 md:h-48 bg-(--surface) border border-(--line) rounded-xl px-4 py-3 text-(--ink) placeholder:text-(--ink-3) focus:outline-none resize-none text-sm"
             />
           </div>
 
           {/* Resume Upload */}
-          <div>
+          <div className="rs-in" style={{ ["--i" as string]: 2 }}>
             <label className="block text-sm font-medium text-(--ink) mb-2">
               Resumes (PDF, up to 10)
             </label>
             <div
               onClick={() => fileRef.current?.click()}
-              className="h-48 border-2 border-dashed border-(--line) rs-dropzone rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors rs-dropzone"
+              className="h-36 md:h-48 border-2 border-dashed border-(--line) rs-dropzone rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors rs-dropzone"
             >
               <svg className="w-10 h-10 text-(--ink-3) mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -155,7 +155,7 @@ export default function Home() {
           <MagneticButton
             onClick={screen}
             disabled={loading || !jobDesc.trim() || !files.length}
-            className="w-full disabled:opacity-50 disabled:cursor-not-allowed py-3 rounded-xl font-medium transition-colors rs-btn-accent" style={{ background: "var(--accent)", color: "var(--on-accent)" }}
+            className="w-full disabled:opacity-50 disabled:cursor-not-allowed py-3 rounded-xl font-medium rs-btn-accent rs-in" style={{ ["--i" as string]: 3, background: "var(--accent)", color: "var(--on-accent)" }}
           >
             {loading ? `Screening ${files.length} resume(s)...` : `Screen ${files.length || 0} Resume(s)`}
           </MagneticButton>
@@ -171,7 +171,7 @@ export default function Home() {
               <h2 className="text-lg font-semibold">{results.length} Candidate(s) Ranked</h2>
               <button
                 onClick={() => downloadCSV(results)}
-                className="text-sm px-3 py-1.5 rounded-lg transition-colors" style={{ color: "var(--accent-ink)", border: "1px solid var(--line)" }}
+                className="text-sm px-4 rounded-lg transition-colors rs-tap" style={{ color: "var(--accent-ink)", border: "1px solid var(--line)" }}
               >
                 Download CSV
               </button>

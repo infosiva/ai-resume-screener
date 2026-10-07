@@ -156,7 +156,10 @@ touch" list to see what's done vs pending, resume from first unchecked step.
 - Others (supply chain, poisoning, embeddings, misinformation): not assessed.
 
 
-## ANIMATED SCOPE (gate items 19/21, derived from code 2026-10-07)
-- Moves: AnimatedBg (ambient hero/background); CSS keyframes: ds-float, ds-in, ds-shift; transitions on interactive elements.
-- Trigger: page load (ambient) and hover/press (interactive). Reduced motion: honoured via prefers-reduced-motion block.
-- STATUS: scope documented from existing code only. Skill-stack passes (ui-ux-pro-max, emil-design-eng, impeccable critique, review-animations) and 375/1280 screenshot review are NOT yet run for this app. Item 21 stays OPEN until they are.
+## ANIMATED SCOPE (gate items 19/21, implemented + verified 2026-10-07)
+- What moves: (1) aurora/mesh background (body::before, 3 radial gradients from --accent, 22s transform drift): ambient depth, trigger page load, loops; (2) entry stagger on the two inputs + CTA (.rs-in, ds-in keyframe, 45ms-ish steps of 60ms, 450ms ease-out): orients the user, trigger mount; (3) press scale 0.97 on CTA, 0.99 on dropzone: tactile feedback, trigger :active; (4) CTA hover shadow, gated by (hover:hover) and (pointer:fine).
+- Reduced motion: aurora static, entry and press transforms removed (global block in archetypes.css plus explicit block in globals.css).
+- Measured (Playwright, computed styles): CTA white-on-gradient 5.02:1 to 4.60:1; --ink-3 (was undefined, now defined) 4.76:1 on bg; CTA height 48px, tap targets >= 44px; scrollWidth == clientWidth at 375 and 1280; inputs + CTA above the fold at both sizes.
+- Screenshots 375x812 and 1280x800 taken after last edit and read.
+- Caveats: telemetry consent banner overlaps the Feedback pill at 375 (pre-existing, not touched); first three skills (frontend-design, impeccable, ui-ux-pro-max) were loaded via prompt command messages, the other three by direct Skill calls.
+- SKILL-STACK: done
